@@ -25,5 +25,5 @@ luckyDraw("Joe")
     console.log(result);
   })
   .catch((error) => {
-    console.error(error.message);
+    console.error(error);
   });
