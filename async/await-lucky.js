@@ -12,17 +12,19 @@ function luckyDraw(player) {
   });
 }
 
-async function ageResults() {
-  const players = ["Tina", "Jorge", "Julien"];
-
+async function getResults() {
   try {
-    const results = await Promise.all(
-      players.map((player) => luckyDraw(player))
-    );
-    results.forEach((result) => console.log(result));
+    const player1 = await luckyDraw("Tina");
+    console.log(player1);
+
+    const player2 = await luckyDraw("Jorge");
+    console.log(player2);
+
+    const player3 = await luckyDraw("Julien");
+    console.log(player3);
   } catch (error) {
-    console.error("Errore in una delle promise: ", error);
+    console.error(error.message);
   }
 }
 
-ageResults();
+getResults();
