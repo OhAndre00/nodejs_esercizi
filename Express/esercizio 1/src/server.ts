@@ -1,6 +1,6 @@
-import express from "express";
-import "express-async-errors";
-import morgan from "morgan";
+import express from "express"; //Il framework principale per creare il server web
+import "express-async-errors"; //Gestisce automaticamente gli errori nelle funzioni async
+import morgan from "morgan"; //Per formattare le risposte in formato JSON
 import {
   getAll,
   getOneById,
@@ -25,6 +25,7 @@ app.put("/api/planets/:id", updateById);
 
 app.delete("/api/planets/:id", deleteById);
 
+// Avvio server
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
