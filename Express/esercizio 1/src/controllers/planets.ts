@@ -1,25 +1,6 @@
 import { Request, Response } from "express";
 import Joi from "joi";
-import pgPromise from "pg-promise";
-
-const db = pgPromise()("postgres://postgres:andrea@localhost:5432/psql_1");
-
-const setupDb = async () => {
-  await db.none(`
-      DROP TABLE IF EXISTS planets;
-
-      CREATE TABLE planets (
-        id SERIAL NOT NULL PRIMARY KEY,
-        name TEXT NOT NULL,
-        image TEXT
-      );
-    `);
-
-  await db.none(`INSERT INTO planets (name) VALUES ('Earth')`);
-  await db.none(`INSERT INTO planets (name) VALUES ('Mars')`);
-  await db.none(`INSERT INTO planets (name) VALUES ('Jupiter')`);
-};
-setupDb();
+import { db } from "../db.js";
 
 const planetSchema = Joi.object({
   name: Joi.string().required(),
@@ -30,8 +11,12 @@ const getRoute = async (req: Request, res: Response) => {
 };
 
 const getAll = async (req: Request, res: Response) => {
-  const planets = await db.many(`SELECT * FROM planets;`);
-  res.status(200).json(planets);
+  const planets = await db.manyOrNone(`SELECT * FROM planets;`);
+  if (planets.length) {
+    res.status(200).json(planets);
+  } else {
+    res.status(404).json({ msg: "Planets not found" });
+  }
 };
 
 const getOneById = async (req: Request, res: Response) => {
@@ -100,6 +85,7 @@ const createImage = async (req: Request, res: Response) => {
 };
 
 export {
+  db,
   getRoute,
   getAll,
   getOneById,
