@@ -11,6 +11,7 @@ import {
   deleteById,
   createImage,
 } from "./controllers/planets.js";
+import { logIn, signUp } from "./controllers/users.js";
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -40,6 +41,9 @@ app.put("/api/planets/:id", updateById);
 app.delete("/api/planets/:id", deleteById);
 
 app.post("/api/planets/:id/image", upload.single("image"), createImage);
+
+app.post("/api/users/login", logIn);
+app.post("/api/users/signup", signUp);
 
 // Avvio server
 app.listen(PORT, () => {

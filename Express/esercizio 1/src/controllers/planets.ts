@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Joi from "joi";
-import { db } from "../db.js";
+import { db } from "./../db.js";
 
 const planetSchema = Joi.object({
   name: Joi.string().required(),
